@@ -332,6 +332,10 @@ jacket.favorite = true;
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
 
+console.log("bluejacket",blueJacket)
+console.log("jacket",jacket)
+console.log("Both are favorites !! Let's try something else :")
+
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
   'price': 110,
@@ -340,9 +344,11 @@ blueJacket = {
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
-
-
-
+jacket = JSON.parse(JSON.stringify(blueJacket));
+jacket.favorite=true;
+console.log("bluejacket",blueJacket)
+console.log("jacket",jacket)
+console.log("all good now !")
 
 /**
  * 🎬
@@ -353,3 +359,6 @@ blueJacket = {
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
 // 2. log the localStorage
+
+localStorage.setItem("favorite_brands",MY_FAVORITE_BRANDS);
+console.log("local_storage",localStorage)
