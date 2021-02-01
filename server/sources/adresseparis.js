@@ -9,20 +9,20 @@ const cheerio = require('cheerio');
 const parse = data => {
   const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
+  return $('.product-container')
     .map((i, element) => {
       const name = $(element)
-        .find('.productList-title')
+        .find('.product-name-container.versionmob')
         .text()
         .trim()
         .replace(/\s/g, ' ');
-      const price = parseInt(
+      const price = 
         $(element)
-          .find('.productList-price')
+           .find('.price.product-price')
           .text()
-      );
+      
       const url = 
-      $(element).find('.productList-link').attr('href');
+      $(element).find('.product_img_link').attr('href');
       return {name, price,url};
     })
     .get();

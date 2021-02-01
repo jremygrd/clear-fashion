@@ -9,21 +9,24 @@ const cheerio = require('cheerio');
 const parse = data => {
   const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
+  return $('div.product-meta')
     .map((i, element) => {
+      console.log(element);
       const name = $(element)
-        .find('.productList-title')
+        // .find('h2.collection-page__title')
+        .find('.product-title')
         .text()
         .trim()
         .replace(/\s/g, ' ');
-      const price = parseInt(
+
+      const price = 
         $(element)
-          .find('.productList-price')
+          .find('.product-price')
           .text()
-      );
-      const url = 
-      $(element).find('.productList-link').attr('href');
-      return {name, price,url};
+      ;
+
+
+      return {name,price};
     })
     .get();
 };
@@ -34,7 +37,7 @@ const parse = data => {
  * @return {Array|null}
  */
 module.exports.scrape = async url => {
-  console.log(url)
+  console.log(url);
   const response = await axios(url);
   const {data, status} = response;
 
