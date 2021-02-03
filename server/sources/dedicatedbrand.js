@@ -23,7 +23,14 @@ const parse = data => {
       );
       const url = 
       $(element).find('.productList-link').attr('href');
-      return {name, price,url};
+
+      f = 'https://www.dedicatedbrand.com/'
+      let link = f.concat(url)
+
+      const photo =  $(element).find('img').attr('src');
+
+
+      return {name, price,link,photo};
     })
     .get();
 };

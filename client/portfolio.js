@@ -131,8 +131,11 @@ const renderProducts = products => {
 
   const template = products
     .map(product => {
+      product.photo[0] != "h" ? product.photo = "https:".concat(product.photo):null;
+
       return `
       <div class="product" id=${product.uuid}>
+        <img src=${product.photo}></img>
         <span>${product.brand}</span>
         <a href="${product.link}" id ="newTab">${product.name}</a>
         <span>${product.price}</span>

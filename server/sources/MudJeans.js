@@ -9,7 +9,7 @@ const cheerio = require('cheerio');
 const parse = data => {
   const $ = cheerio.load(data);
 
-  return $('div.product-meta')
+  return $('div.product-link')
     .map((i, element) => {
       console.log(element);
       const name = $(element)
@@ -20,13 +20,21 @@ const parse = data => {
         .replace(/\s/g, ' ');
 
       const price = 
+      parseInt(
         $(element)
-          .find('.product-price')
-          .text()
-      ;
+          .find('p.product-price')
+          .text().replace(/[\nBuy€]/g, ' ').trim()
+      )
+      const f = 'https://mudjeans.eu/'
+      const url = 
+      $(element).find('a').attr('href');
+      let link = f.concat(url)
 
 
-      return {name,price};
+      const photo =  $(element).find('img').attr('src');
+
+
+      return {name, price,link,photo};
     })
     .get();
 };

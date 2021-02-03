@@ -15,15 +15,21 @@ const parse = data => {
         .find('.product-name-container.versionmob')
         .text()
         .trim()
-        .replace(/\s/g, ' ');
-      const price = 
+        .replace(/[\s\t]/g, ' ');
+      const price = parseInt(
         $(element)
            .find('.price.product-price')
-          .text()
+          .text().trim().replace(/[\s\t€]/g, ' ').trim());
       
-      const url = 
+      const link = 
       $(element).find('.product_img_link').attr('href');
-      return {name, price,url};
+
+
+      const photo =  $(element).find('img').attr('data-original');
+
+
+      return {name, price,link,photo};
+
     })
     .get();
 };
