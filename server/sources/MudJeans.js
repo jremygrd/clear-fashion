@@ -38,8 +38,9 @@ const parse = data => {
       });
       photo = photo2;
       let id = create_UUID();
+      let brand = 'MudJeans'
 
-      return {name, price,link,photo,id};
+      return {name, price,link,photo,id,brand};
     })
     .get();
     

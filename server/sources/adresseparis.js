@@ -28,7 +28,8 @@ const parse = data => {
       photo.push($(element).find('.img_0').attr('data-original'));
       photo.push($(element).find('.img_1').attr('data-rollover'));
       let id = create_UUID()
-      return {name, price,link,photo,id};
+      let brand = 'adresseparis'
+      return {name, price,link,photo,id,brand};
 
     })
     .get();

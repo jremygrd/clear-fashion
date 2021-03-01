@@ -25,7 +25,8 @@ const parse = data => {
         'newProduct':element.price.newProduct,
         'link':f.concat(element.canonicalUri),
         'showAsOnSale':element.price.showAsOnSale,
-        'photo':element.image
+        'photo':element.image,
+        'brand':'dedicated'
       }
       )
     }
