@@ -24,11 +24,11 @@ const parse = data => {
       const link = 
       $(element).find('.product_img_link').attr('href');
 
-
-      const photo =  $(element).find('img').attr('data-original');
-
-
-      return {name, price,link,photo};
+      let photo = []
+      photo.push($(element).find('.img_0').attr('data-original'));
+      photo.push($(element).find('.img_1').attr('data-rollover'));
+      let id = create_UUID()
+      return {name, price,link,photo,id};
 
     })
     .get();
@@ -39,16 +39,25 @@ const parse = data => {
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
-  console.log(url)
-  const response = await axios(url);
+module.exports.scrape = async () => {
+  const response = await axios('https://adresse.paris/630-toute-la-collection?id_category=630&n=109');
   const {data, status} = response;
-
+  console.log("scraping adresse paris")
   if (status >= 200 && status < 300) {
     return parse(data);
   }
-
   console.error(status);
 
   return null;
 };
+
+
+function create_UUID(){
+  var dt = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (dt + Math.random()*16)%16 | 0;
+      dt = Math.floor(dt/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+  });
+  return uuid;
+}

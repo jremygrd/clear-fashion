@@ -7,44 +7,43 @@ const cheerio = require('cheerio');
  * @return {Array} products
  */
 const parse = data => {
-  const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
-    .map((i, element) => {
-      const name = $(element)
-        .find('.productList-title')
-        .text()
-        .trim()
-        .replace(/\s/g, ' ');
-      const price = parseInt(
-        $(element)
-          .find('.productList-price')
-          .text()
-      );
-      const url = 
-      $(element).find('.productList-link').attr('href');
+  res = []
+  f = 'https://www.dedicatedbrand.com/'
 
-      f = 'https://www.dedicatedbrand.com/'
-      let link = f.concat(url)
+  data.products.forEach(element => {
+    
+    if(element.id && element.canonicalUri.slice(0,4)=='men/'){
+      
+      if(res.hasOwnProperty(element.id)){
 
-      const photo =  $(element).find('img').attr('src');
+      }else{
 
-
-      return {name, price,link,photo};
-    })
-    .get();
-};
+      res.push({'name':element.name, 
+        'id' : element.id,
+        'price' :element.price.priceAsNumber, 
+        'newProduct':element.price.newProduct,
+        'link':f.concat(element.canonicalUri),
+        'showAsOnSale':element.price.showAsOnSale,
+        'photo':element.image
+      }
+      )
+    }
+  }
+    
+  });
+  return res;
+}
 
 /**
  * Scrape all the products for a given url page
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
-  console.log(url)
-  const response = await axios(url);
+module.exports.scrape = async() => {
+  const response = await axios("https://www.dedicatedbrand.com/en/loadfilter?category=men%2Fsweat");
   const {data, status} = response;
-
+console.log("scraping dedicated")
   if (status >= 200 && status < 300) {
     return parse(data);
   }

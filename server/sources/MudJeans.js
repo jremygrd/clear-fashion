@@ -11,9 +11,7 @@ const parse = data => {
 
   return $('div.product-link')
     .map((i, element) => {
-      console.log(element);
       const name = $(element)
-        // .find('h2.collection-page__title')
         .find('.product-title')
         .text()
         .trim()
@@ -31,12 +29,20 @@ const parse = data => {
       let link = f.concat(url)
 
 
-      const photo =  $(element).find('img').attr('src');
+      const photos =  $(element).find('img').attr('srcset');
+      let photo = photos.split(",")
 
+      photo2 = [];
+      photo.forEach(element => {
+        photo2.push(element.slice(0,-3))
+      });
+      photo = photo2;
+      let id = create_UUID();
 
-      return {name, price,link,photo};
+      return {name, price,link,photo,id};
     })
     .get();
+    
 };
 
 /**
@@ -44,9 +50,9 @@ const parse = data => {
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
-  console.log(url);
-  const response = await axios(url);
+module.exports.scrape = async() => {
+  const response = await axios("https://mudjeans.eu/collections/men");
+  console.log("scraping Mudjeans")
   const {data, status} = response;
 
   if (status >= 200 && status < 300) {
@@ -57,3 +63,15 @@ module.exports.scrape = async url => {
 
   return null;
 };
+
+
+function create_UUID(){
+  var dt = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (dt + Math.random()*16)%16 | 0;
+      dt = Math.floor(dt/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+  });
+  return uuid;
+}
+
