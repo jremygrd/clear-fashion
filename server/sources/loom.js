@@ -8,29 +8,29 @@ const {'v5': uuidv5} = require('uuid');
  * @return {Object} restaurant
  */
 const parse = data => {
-  const $ = cheerio.load(data);
+  const $ = cheerio.load(data, {'xmlMode': true});
 
-  return $('.productList-container .productList')
+  return $('.product-grid__item')
     .map((i, element) => {
-      const link = `https://www.dedicatedbrand.com${$(element)
-        .find('.productList-link')
+      const link = `https://www.loom.fr${$(element)
+        .find('.product-title a')
         .attr('href')}`;
 
       return {
         link,
-        'brand': 'dedicated',
+        'brand': 'loom',
         'price': parseInt(
           $(element)
-            .find('.productList-price')
+            .find('.money')
             .text()
         ),
         'name': $(element)
-          .find('.productList-title')
+          .find('.product-title')
           .text()
           .trim()
           .replace(/\s/g, ' '),
         'photo': $(element)
-          .find('.productList-image img')
+          .find('noscript img.product_card__image')
           .attr('src'),
         '_id': uuidv5(link, uuidv5.URL)
       };
@@ -41,7 +41,7 @@ const parse = data => {
 module.exports.scrape = async url => {
   const response = await axios(url);
   const {data, status} = response;
-console.log("scraping dedicated")
+
   if (status >= 200 && status < 300) {
     return parse(data);
   }
