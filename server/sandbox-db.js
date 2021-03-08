@@ -1,6 +1,8 @@
 /* eslint-disable no-console, no-process-exit */
-const dedicatedbrand = require('./sources/dedicatedbrand');
+const dedicatedbrand = require('./sources/dedicatedbrandold');
 const loom = require('./sources/loom');
+const adresseparis = require('./sources/adresseparis');
+const mudjeans = require('./sources/mudjeans');
 const db = require('./db');
 
 async function sandbox () {
@@ -8,7 +10,6 @@ async function sandbox () {
     let products = [];
     let pages = [
       'https://www.dedicatedbrand.com/en/men/basics',
-      'https://www.dedicatedbrand.com/en/men/sale'
     ];
 
     console.log(`🕵️‍♀️  browsing ${pages.length} pages with for...of`);
@@ -25,8 +26,28 @@ async function sandbox () {
     }
 
     pages = [
+      'https://adresse.paris/630-toute-la-collection?id_category=630&n=109']
+
+      for (let page of pages) {
+       let results = await adresseparis.scrape(page);
+       console.log(`👕 ${results.length} products found`);
+       products.push(results);
+      }
+
+      pages = [
+        'https://mudjeans.eu/collections/men']
+  
+        for (let page of pages) {
+         let results = await mudjeans.scrape(page);
+         console.log(`👕 ${results.length} products found`);
+         products.push(results);
+        }
+    
+
+    pages = [
       'https://www.loom.fr/collections/hauts',
-      'https://www.loom.fr/collections/bas'
+      'https://www.loom.fr/collections/bas',
+      'https://www.loom.fr/collections/sous-vetements'
     ];
 
     console.log('\n');
@@ -54,11 +75,11 @@ async function sandbox () {
 
     console.log('\n');
 
-    console.log('💽  Find Loom products only');
+    // console.log('💽  Find Loom products only');
 
-    const loomOnly = await db.find({'brand': 'loom'});
+    // const loomOnly = await db.find({'brand': 'loom'});
 
-    console.log(loomOnly);
+    //sconsole.log(loomOnly);
 
     db.close();
   } catch (e) {

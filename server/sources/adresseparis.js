@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-
+const {'v5': uuidv5} = require('uuid');
 /**
  * Parse webpage e-shop
  * @param  {String} data - html response
@@ -27,9 +27,9 @@ const parse = data => {
       let photo = []
       photo.push($(element).find('.img_0').attr('data-original'));
       photo.push($(element).find('.img_1').attr('data-rollover'));
-      let id = create_UUID()
+      let _id = uuidv5(link, uuidv5.URL);
       let brand = 'adresseparis'
-      return {name, price,link,photo,id,brand};
+      return {name, price,link,photo,_id,brand};
 
     })
     .get();
