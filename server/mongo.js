@@ -15,7 +15,7 @@ async function run() {
     let i = JSON.parse(data)
     //console.log(i[0])
 
-    let products = i[0] // We do it for 0,1 and 3 (my products .json wasn't built perfectly and i'm too lazy to do a loop for 3 indexes)
+    let products = i[0] // We do it for 0,1 and 3 (my products.json wasn't built perfectly and i'm too lazy to do a loop for 3 indexes)
     let p = products
     console.log(p)
 
